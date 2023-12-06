@@ -4,7 +4,7 @@
 
 
 
-I created this script to automatically decrypt encrypted payslips from my employer and then import them into Paperless-NGX.
+I created this script to automatically decrypt encrypted payroll documents from my employer and then import them into Paperless-NGX.
 
 I have maintained all my variables in **docker-compose.env**.
 
