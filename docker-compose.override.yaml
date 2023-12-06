@@ -1,0 +1,5 @@
+version: "3.4"
+services:
+  webserver:
+    volumes:
+      - ./bin:/opt/paperless/bin

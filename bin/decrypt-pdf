@@ -1,0 +1,35 @@
+#!/bin/bash
+
+input_file=${DOCUMENT_SOURCE_PATH}
+output_file=${DOCUMENT_WORKING_PATH}
+password_file="/opt/paperless/bin/passwords.txt"
+
+
+if [ ! -f "$password_file" ]; then
+    echo "Password file not found: $password_file"
+    exit 1
+fi
+
+passwords=($(cat "$password_file"))
+
+
+encryption_info=$(qpdf --show-encryption "$input_file" 2>&1)
+
+if [[ $encryption_info == *"Incorrect password supplied"* ]]; then
+    echo "PDF is encrypted. Trying passwords..."
+
+    for password in "${passwords[@]}"; do
+        qpdf --password="$password" --decrypt "$input_file" "$output_file" >/dev/null 2>&1
+
+        if [ $? -eq 0 ]; then
+            echo "PDF decrypted successfully with password: $password"
+            echo "Output saved to $output_file"
+            exit 0
+        else
+            echo "Failed to decrypt the PDF with password: $password"
+        fi
+    done
+
+    echo "Unable to decrypt the PDF. All passwords failed."
+else
+    echo "PDF is not encrypted. Exiting script."
