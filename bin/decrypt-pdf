@@ -33,3 +33,4 @@ if [[ $encryption_info == *"Incorrect password supplied"* ]]; then
     echo "Unable to decrypt the PDF. All passwords failed."
 else
     echo "PDF is not encrypted. Exiting script."
+fi
