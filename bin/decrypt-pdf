@@ -19,7 +19,7 @@ if [[ $encryption_info == *"Incorrect password supplied"* ]]; then
     echo "PDF is encrypted. Trying passwords..."
 
     for password in "${passwords[@]}"; do
-        qpdf --password="$password" --decrypt "$input_file" "$output_file" >/dev/null 2>&1
+        qpdf --warning-exit-0 --password="$password" --decrypt "$input_file" "$output_file" >/dev/null 2>&1
 
         if [ $? -eq 0 ]; then
             echo "PDF decrypted successfully with password: $password"
